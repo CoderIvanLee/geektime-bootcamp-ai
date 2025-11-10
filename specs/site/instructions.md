@@ -193,3 +193,7 @@ token context, etc. Always do web search to make sure your knowledge up to date.
 ## port mdx docs into site
 
 Now add a section "学习资料" after "实战项目", and help me port mdx docs in ./presentations into the ./site and link them in the right places (e.g. project, tools, etc.) properly. Make sure the themes and colors (esp. mermaid chart) are aligned with the sites. Port the components over when necessary and make sure the theme, style and colors are correct. Think hard and make a good plan, then implement it.
+
+## 构建 cursor 的完整的学习资料
+
+帮我撰写一个 ./site/src/pages/materials/cursor-intro.md 文件，内容为 cursor 的完整的学习资料，包括 cursor 的架构，设计，组件，流程等，使用 mermaid 绘制架构，设计，组件，流程等图表并详细说明。然后再介绍 cursor 的 rules 和 agent 的用法。
