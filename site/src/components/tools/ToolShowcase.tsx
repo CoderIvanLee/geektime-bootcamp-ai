@@ -16,6 +16,7 @@ interface ToolShowcaseProps {
   features: Feature[];
   href?: string;
   reverse?: boolean;
+  imageUrl?: string;
 }
 
 export default function ToolShowcase({
@@ -26,6 +27,7 @@ export default function ToolShowcase({
   features,
   href,
   reverse = false,
+  imageUrl,
 }: ToolShowcaseProps) {
   return (
     <div
@@ -42,9 +44,19 @@ export default function ToolShowcase({
           <motion.div
             whileHover={{ scale: 1.05, rotate: 2 }}
             transition={{ duration: 0.3 }}
-            className="w-full h-full bg-gradient-to-br from-accent to-accent-purple rounded-3xl flex items-center justify-center shadow-2xl"
+            className="w-full h-full rounded-3xl overflow-hidden shadow-2xl"
           >
-            <span className="text-8xl font-bold text-white opacity-90">{name[0]}</span>
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-accent to-accent-purple flex items-center justify-center">
+                <span className="text-8xl font-bold text-white opacity-90">{name[0]}</span>
+              </div>
+            )}
           </motion.div>
         </div>
       </ScrollReveal>

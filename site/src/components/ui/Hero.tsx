@@ -6,6 +6,7 @@ interface HeroProps {
   subtitle?: string;
   children?: ReactNode;
   backgroundClass?: string;
+  backgroundImage?: string;
 }
 
 export default function Hero({
@@ -13,10 +14,21 @@ export default function Hero({
   subtitle,
   children,
   backgroundClass = 'bg-gradient-to-b from-bg-primary to-bg-secondary',
+  backgroundImage,
 }: HeroProps) {
+  const sectionStyle = backgroundImage
+    ? {
+        backgroundImage: `linear-gradient(to bottom, rgba(249, 250, 251, 0.5), rgba(243, 244, 246, 0.6)), url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }
+    : {};
+
   return (
     <section
       className={`min-h-screen flex items-center justify-center ${backgroundClass}`}
+      style={sectionStyle}
     >
       <div className="container-custom text-center">
         <motion.h1

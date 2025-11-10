@@ -209,3 +209,7 @@ Now add a section "学习资料" after "实战项目", and help me port mdx docs
 ## 更新项目 1
 
 深度学习 ./site，根据 ./w1/project-alpha 的 specs 深度了解项目 1，并更新 ./site 里跟项目 1 相关的内容。项目的截图使用 playwright 生成，并保存到 ./site/public/images/projects/project-1/ 目录下。
+
+## 生成图片
+
+仔细月底 ./site 代码，看哪些地方缺图片（或者使用图片效果更好），使用 ai image skill 生成图片，保存到 ./site/public/images/ 目录下，并在需要图片的页面中引用。如果不是需要特别风格的图片，尽量生成 ghibli 风格的图片。

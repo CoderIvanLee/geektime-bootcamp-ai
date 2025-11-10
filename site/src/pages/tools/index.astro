@@ -44,6 +44,7 @@ const knowledge = tools.filter((t) => t.category === 'knowledge');
               features={tool.features}
               href={`/tools/${tool.id}`}
               reverse={index % 2 === 1}
+              imageUrl={`/images/tools/${tool.id}.jpg`}
               client:load
             />
           ))
@@ -74,6 +75,7 @@ const knowledge = tools.filter((t) => t.category === 'knowledge');
               features={tool.features}
               href={`/tools/${tool.id}`}
               reverse={index % 2 === 0}
+              imageUrl={`/images/tools/${tool.id}.jpg`}
               client:load
             />
           ))
@@ -104,6 +106,7 @@ const knowledge = tools.filter((t) => t.category === 'knowledge');
               features={tool.features}
               href={`/tools/${tool.id}`}
               reverse={index % 2 === 1}
+              imageUrl={`/images/tools/${tool.id}.jpg`}
               client:load
             />
           ))
@@ -135,6 +138,7 @@ const knowledge = tools.filter((t) => t.category === 'knowledge');
                 features={tool.features}
                 href={`/tools/${tool.id}`}
                 reverse={index % 2 === 0}
+                imageUrl={`/images/tools/${tool.id}.jpg`}
                 client:load
               />
             ))}
