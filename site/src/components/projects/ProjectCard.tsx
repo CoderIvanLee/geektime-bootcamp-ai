@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Star } from 'lucide-react';
-import { getUrl } from '../../utils/url';
+import { getUrl, getImageUrl } from '../../utils/url';
 
 interface ProjectCardProps {
   number: number;
@@ -41,7 +41,7 @@ export default function ProjectCard({
         {previewImage ? (
           <div className="flex justify-center items-center p-6 w-full h-full">
             <img
-              src={previewImage}
+              src={getImageUrl(previewImage)}
               alt={title}
               className="max-w-full max-h-full object-contain shadow-xl border-2 group-hover:scale-[1.02] transition-all duration-300"
               style={{

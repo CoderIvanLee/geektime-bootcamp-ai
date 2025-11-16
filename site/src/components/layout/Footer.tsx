@@ -7,20 +7,20 @@ export default function Footer() {
 
   const footerLinks = {
     课程: [
-      { label: '课程大纲', href: '/curriculum' },
-      { label: '工具生态', href: '/tools' },
-      { label: '实战项目', href: '/projects' },
-      { label: '学习资料', href: '/materials' },
+      { label: '课程大纲', href: 'curriculum' },
+      { label: '工具生态', href: 'tools' },
+      { label: '实战项目', href: 'projects' },
+      { label: '学习资料', href: 'materials' },
     ],
     资料: [
-      { label: 'Claude Code 架构', href: '/materials/claude-code-architecture' },
-      { label: '工具对比', href: '/materials/ai-coding-tools-comparison' },
-      { label: 'NotebookLM', href: '/materials/notebooklm-guide' },
+      { label: 'Claude Code 架构', href: 'materials/claude-code-architecture' },
+      { label: '工具对比', href: 'materials/ai-coding-tools-comparison' },
+      { label: 'NotebookLM', href: 'materials/notebooklm-guide' },
     ],
     关于: [
-      { label: '课程价值', href: '/about#value' },
-      { label: '适合人群', href: '/about#audience' },
-      { label: '讲师介绍', href: '/about#instructor' },
+      { label: '课程价值', href: 'about#value' },
+      { label: '适合人群', href: 'about#audience' },
+      { label: '讲师介绍', href: 'about#instructor' },
     ],
   };
 

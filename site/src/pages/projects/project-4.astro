@@ -6,7 +6,7 @@ import { getUrl } from "../../utils/url";
 
 const project = getProjectById("project-4");
 if (!project) {
-  return Astro.redirect("/projects");
+  return Astro.redirect(getUrl("projects"));
 }
 ---
 

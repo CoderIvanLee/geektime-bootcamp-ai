@@ -243,7 +243,7 @@ useEffect(() => {
       '前后端协作的开发流程',
       '使用 Alembic 管理数据库版本',
     ],
-    previewImage: '/projects/project-1/preview.png',
+    previewImage: 'projects/project-1/preview.png',
     demoUrl: 'http://localhost:5173',
   },
   {

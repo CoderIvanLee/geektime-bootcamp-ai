@@ -6,7 +6,7 @@ import { getUrl } from "../../utils/url";
 
 const weekData = getWeekData(5);
 if (!weekData) {
-  return Astro.redirect("/curriculum");
+  return Astro.redirect(getUrl("curriculum"));
 }
 ---
 

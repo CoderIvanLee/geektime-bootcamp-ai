@@ -6,7 +6,7 @@ import { getUrl } from "../../utils/url";
 
 const tool = getToolById("gpt-4");
 if (!tool) {
-  return Astro.redirect("/tools");
+  return Astro.redirect(getUrl("tools"));
 }
 ---
 

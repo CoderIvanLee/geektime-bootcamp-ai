@@ -70,7 +70,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             <h2 className="text-h2 font-bold text-ink mb-8">项目预览</h2>
             <div style={{ backgroundColor: 'var(--md-fog)', padding: 'var(--space-8)', borderRadius: 0 }}>
               <img
-                src={project.previewImage}
+                src={getImageUrl(project.previewImage)}
                 alt={`${project.title} 预览`}
                 className="w-full rounded-lg shadow-xl border-2 border-gray-200 bg-white"
               />
