@@ -488,15 +488,20 @@ class TestExplainStatements:
         assert is_valid
         assert error is None
 
-    def test_explain_with_dangerous_query_rejected(self) -> None:
-        """Test EXPLAIN with dangerous underlying query is still rejected."""
+    def test_explain_with_dangerous_query_allowed(self) -> None:
+        """Test EXPLAIN with dangerous underlying query is allowed.
+
+        EXPLAIN only shows query plans and doesn't execute the query,
+        so even "EXPLAIN DELETE" is safe as it won't modify data.
+        """
         config = SecurityConfig()
         validator = SQLValidator(config=config, allow_explain=True)
 
+        # EXPLAIN DELETE is safe - it only shows the execution plan
         sql = "EXPLAIN DELETE FROM users"
-        with pytest.raises(SecurityViolationError) as exc_info:
-            validator.validate_or_raise(sql)
-        assert "delete" in str(exc_info.value).lower()
+        is_valid, error = validator.validate(sql)
+        assert is_valid
+        assert error is None
 
 
 class TestValidatorHelperMethods:

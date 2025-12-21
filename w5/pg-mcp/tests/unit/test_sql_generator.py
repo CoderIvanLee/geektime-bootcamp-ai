@@ -288,8 +288,9 @@ class TestSQLGenerator:
             )
         ]
 
+        # Use AsyncMock for async method
         with patch.object(
-            generator.client.chat.completions, "create", return_value=mock_response
+            generator.client.chat.completions, "create", new=AsyncMock(return_value=mock_response)
         ) as mock_create:
             result = await generator.generate("列出所有用户", mock_schema)
 
@@ -321,7 +322,7 @@ class TestSQLGenerator:
         ]
 
         with patch.object(
-            generator.client.chat.completions, "create", return_value=mock_response
+            generator.client.chat.completions, "create", new=AsyncMock(return_value=mock_response)
         ):
             result = await generator.generate(
                 question="How many active users?",
@@ -347,7 +348,7 @@ class TestSQLGenerator:
         ]
 
         with patch.object(
-            generator.client.chat.completions, "create", return_value=mock_response
+            generator.client.chat.completions, "create", new=AsyncMock(return_value=mock_response)
         ) as mock_create:
             result = await generator.generate(
                 question="Count users",
@@ -372,7 +373,7 @@ class TestSQLGenerator:
         with patch.object(
             generator.client.chat.completions,
             "create",
-            side_effect=TimeoutError("Request timed out"),
+            new=AsyncMock(side_effect=TimeoutError("Request timed out")),
         ):
             with pytest.raises(LLMTimeoutError) as exc_info:
                 await generator.generate("Count users", mock_schema)
@@ -388,7 +389,7 @@ class TestSQLGenerator:
         with patch.object(
             generator.client.chat.completions,
             "create",
-            side_effect=Exception("Authentication failed - invalid api_key"),
+            new=AsyncMock(side_effect=Exception("Authentication failed - invalid api_key")),
         ):
             with pytest.raises(LLMUnavailableError) as exc_info:
                 await generator.generate("Count users", mock_schema)
@@ -403,7 +404,7 @@ class TestSQLGenerator:
         with patch.object(
             generator.client.chat.completions,
             "create",
-            side_effect=Exception("Rate limit exceeded"),
+            new=AsyncMock(side_effect=Exception("rate_limit exceeded")),
         ):
             with pytest.raises(LLMUnavailableError) as exc_info:
                 await generator.generate("Count users", mock_schema)
@@ -419,7 +420,7 @@ class TestSQLGenerator:
         mock_response.choices = []
 
         with patch.object(
-            generator.client.chat.completions, "create", return_value=mock_response
+            generator.client.chat.completions, "create", new=AsyncMock(return_value=mock_response)
         ):
             with pytest.raises(LLMError) as exc_info:
                 await generator.generate("Count users", mock_schema)
@@ -435,7 +436,7 @@ class TestSQLGenerator:
         mock_response.choices = [MagicMock(message=MagicMock(content=None))]
 
         with patch.object(
-            generator.client.chat.completions, "create", return_value=mock_response
+            generator.client.chat.completions, "create", new=AsyncMock(return_value=mock_response)
         ):
             with pytest.raises(LLMError) as exc_info:
                 await generator.generate("Count users", mock_schema)
@@ -457,7 +458,7 @@ class TestSQLGenerator:
         ]
 
         with patch.object(
-            generator.client.chat.completions, "create", return_value=mock_response
+            generator.client.chat.completions, "create", new=AsyncMock(return_value=mock_response)
         ):
             with pytest.raises(LLMError) as exc_info:
                 await generator.generate("Invalid request", mock_schema)
@@ -487,7 +488,7 @@ LIMIT 10;"""
         ]
 
         with patch.object(
-            generator.client.chat.completions, "create", return_value=mock_response
+            generator.client.chat.completions, "create", new=AsyncMock(return_value=mock_response)
         ):
             result = await generator.generate(
                 "Show top 10 users by order count in last 30 days", mock_schema
@@ -516,7 +517,7 @@ LIMIT 10;"""
         ]
 
         with patch.object(
-            generator.client.chat.completions, "create", return_value=mock_response
+            generator.client.chat.completions, "create", new=AsyncMock(return_value=mock_response)
         ) as mock_create:
             await generator.generate("Test query", mock_schema)
 
@@ -536,7 +537,7 @@ LIMIT 10;"""
         ]
 
         with patch.object(
-            generator.client.chat.completions, "create", return_value=mock_response
+            generator.client.chat.completions, "create", new=AsyncMock(return_value=mock_response)
         ) as mock_create:
             await generator.generate("Test query", mock_schema)
 
@@ -556,7 +557,7 @@ LIMIT 10;"""
         with patch.object(
             generator.client.chat.completions,
             "create",
-            side_effect=Exception("Unknown error occurred"),
+            new=AsyncMock(side_effect=Exception("Unknown error occurred")),
         ):
             with pytest.raises(LLMError) as exc_info:
                 await generator.generate("Count users", mock_schema)

@@ -414,7 +414,8 @@ class TestSettingsGlobalInstance:
         reset_settings()
         settings = get_settings()
 
-        assert settings.openai.api_key == "sk-env-key"
+        # Use get_secret_value() to access SecretStr content
+        assert settings.openai.api_key.get_secret_value() == "sk-env-key"
         assert settings.openai.model == "gpt-4"
         assert settings.database.host == "env.host.com"
         assert settings.security.max_rows == 5000

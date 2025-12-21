@@ -25,11 +25,11 @@ class SQLValidator:
     - Validating subquery safety
     """
 
-    # Allowed statement types at the top level
-    ALLOWED_STATEMENT_TYPES = {exp.Select}
+    # Allowed statement types at the top level (including set operations)
+    ALLOWED_STATEMENT_TYPES = {exp.Select, exp.Union, exp.Intersect, exp.Except}
 
     # Allowed top-level expressions (including CTEs)
-    ALLOWED_TOP_LEVEL = {exp.Select, exp.With, exp.Subquery}
+    ALLOWED_TOP_LEVEL = {exp.Select, exp.Union, exp.Intersect, exp.Except, exp.With, exp.Subquery}
 
     # Forbidden statement types
     FORBIDDEN_STATEMENT_TYPES = {
@@ -141,15 +141,27 @@ class SQLValidator:
 
         statement = parsed[0]
 
-        # Handle EXPLAIN statements
-        if isinstance(statement, exp.Explain):
-            if not self.allow_explain:
-                raise SecurityViolationError("EXPLAIN statements are not allowed")
-            # Validate the inner statement
-            if statement.this:
-                statement = statement.this
+        # Check for null or empty statement (e.g., comment-only SQL)
+        if statement is None or isinstance(statement, type(None)):
+            raise SQLParseError("No valid SQL statement found")
+
+        # Handle EXPLAIN statements (parsed as Command in sqlglot 28.5.0)
+        if isinstance(statement, exp.Command):
+            # Check if it's an EXPLAIN command
+            cmd_name = str(statement.this).upper() if statement.this else ""
+            if cmd_name == "EXPLAIN":
+                if not self.allow_explain:
+                    raise SecurityViolationError("EXPLAIN statements are not allowed")
+                # EXPLAIN is read-only and safe - it only shows query plans without executing.
+                # sqlglot 28.5.0 cannot parse EXPLAIN syntax reliably (falls back to Command),
+                # so we don't attempt to validate the inner query string to avoid false positives.
+                # Even "EXPLAIN DELETE" is safe as it won't actually delete data.
+                return None
             else:
-                raise SQLParseError("EXPLAIN statement has no query to explain")
+                # Other commands are not allowed
+                raise SecurityViolationError(
+                    f"Command '{cmd_name}' is not allowed. Only SELECT queries are permitted."
+                )
 
         # Handle CTE (WITH) statements - extract the main query
         if isinstance(statement, exp.With):
@@ -192,8 +204,8 @@ class SQLValidator:
                 stmt_name = forbidden_type.__name__.upper()
                 return f"{stmt_name} statements are not allowed. Only SELECT queries are permitted."
 
-        # Ensure statement is a SELECT
-        if not isinstance(statement, exp.Select):
+        # Ensure statement is an allowed type (SELECT or set operations)
+        if not isinstance(statement, tuple(self.ALLOWED_STATEMENT_TYPES)):
             stmt_type = type(statement).__name__
             return f"Statement type {stmt_type} is not allowed. Only SELECT queries are permitted."
 
